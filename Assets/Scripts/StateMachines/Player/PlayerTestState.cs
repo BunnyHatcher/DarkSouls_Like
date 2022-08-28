@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class PlayerTestState : PlayerBaseState
 {
-    
+
+
+    private readonly int FreeLookSpeedHash = Animator.StringToHash("FreeLookSpeed");
     
     public PlayerTestState(PlayerStateMachine stateMachine) : base(stateMachine){ }
 
@@ -23,11 +25,11 @@ public class PlayerTestState : PlayerBaseState
 
         if (stateMachine.InputReader.MovementValue == Vector2.zero) 
         {
-            stateMachine.Animator.SetFloat("FreeLookSpeed", 0, 0.1f, deltaTime);
+            stateMachine.Animator.SetFloat(FreeLookSpeedHash, 0, 0.1f, deltaTime);
             return;
         }
 
-        stateMachine.Animator.SetFloat("FreeLookSpeed", 1, 0.1f, deltaTime);
+        stateMachine.Animator.SetFloat(FreeLookSpeedHash, 1, 0.1f, deltaTime);
         stateMachine.transform.rotation = Quaternion.LookRotation(movement);
 
     }
