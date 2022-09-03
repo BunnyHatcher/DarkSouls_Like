@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Targeter : MonoBehaviour
 {
-    private List<Target> targets = new List<Target>();
+    public List<Target> targets = new List<Target>();
 
     private void OnTriggerEnter(Collider other)
     {
