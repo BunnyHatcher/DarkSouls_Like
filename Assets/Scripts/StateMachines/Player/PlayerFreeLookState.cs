@@ -16,12 +16,14 @@ public class PlayerFreeLookState : PlayerBaseState
 
     public override void Enter()
     {
-    
+        //Targeting
+        stateMachine.InputReader.TargetEvent += OnTarget;
     }
 
 
     public override void Tick(float deltaTime)
     {
+        //Movement Events
         Vector3 movement = CalculateMovement();
 
         stateMachine.CharacterController.Move(movement * stateMachine.FreeLookMovementSpeed * deltaTime);
@@ -32,6 +34,7 @@ public class PlayerFreeLookState : PlayerBaseState
             return;
         }
 
+        //Moving into direction the player is facing
         stateMachine.Animator.SetFloat(FreeLookSpeedHash, 1, AnimatorDampTime, deltaTime);
         FaceMoveDirection(movement, deltaTime);
 
@@ -40,9 +43,17 @@ public class PlayerFreeLookState : PlayerBaseState
 
     public override void Exit()
     {
-
+        // stop targeting
+        stateMachine.InputReader.TargetEvent -= OnTarget;
     }
 
+    private void OnTarget()
+    {
+        //switch target state
+        stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
+    }
+
+    //Calculating the movement method
     private Vector3 CalculateMovement()
     {
         Vector3 forward = stateMachine.MainCameraTransform.forward;
@@ -59,7 +70,8 @@ public class PlayerFreeLookState : PlayerBaseState
      
     }
 
-    private void FaceMoveDirection(Vector3 movement, float deltaTime) //method to make player turn into direction they are facing
+    //method to make player turn into direction they are facing
+    private void FaceMoveDirection(Vector3 movement, float deltaTime) 
     {
         stateMachine.transform.rotation = Quaternion.Lerp(
             stateMachine.transform.rotation,
