@@ -9,6 +9,9 @@ public class PlayerFreeLookState : PlayerBaseState
 
     private readonly int FreeLookSpeedHash = Animator.StringToHash("FreeLookSpeed");
 
+    private readonly int FreeLookBlendTreeHash = Animator.StringToHash("FreeLookBlendTree"); //Hash to be used in BlendTree Animation method
+
+
     private const float AnimatorDampTime = 0.1f;
 
 
@@ -18,6 +21,10 @@ public class PlayerFreeLookState : PlayerBaseState
     {
         //Targeting
         stateMachine.InputReader.TargetEvent += OnTarget;
+
+        //Play BlendTree Animation via Hash
+        stateMachine.Animator.Play(FreeLookBlendTreeHash);
+
     }
 
 
